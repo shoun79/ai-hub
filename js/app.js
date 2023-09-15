@@ -16,7 +16,7 @@ const displayAiData = (ais, dataLimit) => {
         ais = ais.slice(0, 6);
     }
     ais.forEach(ai => {
-        const { name, image, features, published_in } = ai;
+        const { name, image, features, published_in, id } = ai;
         const aiDiv = document.createElement('div');
         aiDiv.classList.add('col');
         aiDiv.innerHTML = `
@@ -37,13 +37,14 @@ const displayAiData = (ais, dataLimit) => {
                                 <h6><i class="fa-solid fa-calendar-days"></i> ${published_in}</h6>
                             </div>
                             <div>
-                                <button class="rounded-circle  text-danger"><i
+                                <button onclick="${loadAisDetails(id)}" class="rounded-circle text-danger" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
                                         class="fa-solid fa-arrow-right"></i></button>
                             </div>
                         </div>
             </div>
         `
         aisContainer.appendChild(aiDiv)
+        //console.log(ai)
 
 
     });
@@ -72,6 +73,13 @@ const toggleSpinner = isLoading => {
     else {
         spinner.classList.add('d-none')
     }
+}
+
+//load Ais Details
+const loadAisDetails = (id) => {
+    fetch(`https://openapi.programming-hero.com/api/ai/tool/${id}`)
+        .then(res => res.json())
+        .then(data => console.log(data.data))
 }
 
 loadAiData(6)
