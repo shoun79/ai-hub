@@ -47,10 +47,12 @@ const displayAiData = (ais, dataLimit) => {
 
 
     });
+    toggleSpinner(false) //stop spinner
 }
 
 //load all ais data
 const loadAllData = (dataLimit) => {
+    toggleSpinner(true) //start spinner
     loadAiData(dataLimit)
     document.getElementById('see-more').style.display = 'none';
 
@@ -60,5 +62,16 @@ const loadAllData = (dataLimit) => {
 document.getElementById('see-more').addEventListener('click', function () {
     loadAllData();
 });
+
+// spinner toggler function
+const toggleSpinner = isLoading => {
+    const spinner = document.getElementById('spinner');
+    if (isLoading) {
+        spinner.classList.remove('d-none')
+    }
+    else {
+        spinner.classList.add('d-none')
+    }
+}
 
 loadAiData(6)
