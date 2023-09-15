@@ -1,17 +1,20 @@
 // load AI data
-const loadAiData = async () => {
+const loadAiData = async (dataLimit) => {
     try {
         const res = await fetch('https://openapi.programming-hero.com/api/ai/tools')
         const data = await res.json();
-        displayAiData(data.data.tools)
+        displayAiData(data.data.tools, dataLimit)
     } catch (error) {
         console.log(error)
     }
 }
 //display Ai Data
-const displayAiData = (ais) => {
+const displayAiData = (ais, dataLimit) => {
     const aisContainer = document.getElementById('ais-container');
-
+    aisContainer.textContent = '';
+    if (dataLimit) {
+        ais = ais.slice(0, 6);
+    }
     ais.forEach(ai => {
         const { name, image, features, published_in } = ai;
         const aiDiv = document.createElement('div');
@@ -41,8 +44,21 @@ const displayAiData = (ais) => {
             </div>
         `
         aisContainer.appendChild(aiDiv)
-        //console.log(ai)
-        console.log(features)
+
+
     });
 }
-loadAiData()
+
+//load all ais data
+const loadAllData = (dataLimit) => {
+    loadAiData(dataLimit)
+    document.getElementById('see-more').style.display = 'none';
+
+}
+
+//see more ais
+document.getElementById('see-more').addEventListener('click', function () {
+    loadAllData();
+});
+
+loadAiData(6)
